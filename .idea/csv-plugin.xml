@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\monte_carlo_engine.py">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\payoff.py">
           <value>
             <Attribute>

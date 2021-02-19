@@ -31,6 +31,9 @@ class Date:
     def __hash__(self):
         return hash(self.datetime())
 
+    def __repr__(self):
+        return "Date(" + str(self.year) + ", " + str(self.month) + ", " + str(self.day) + ")"
+
     def previous_day(self):
         dt = timedelta(days=-1)
         d = self.datetime()

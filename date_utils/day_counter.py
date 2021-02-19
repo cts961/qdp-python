@@ -1,5 +1,8 @@
+from date_utils.calendars import China
+
+
 class DayCounter:
-    def __init__(self, calendar=None):
+    def __init__(self, calendar=China()):
         self.calendar = calendar
 
     def year_fraction(self, from_date, to_date):

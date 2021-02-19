@@ -25,13 +25,49 @@ class Payoff:
 
 
 class VanillaPayoff(Payoff):
-    def __init__(self, payoff_type: PayoffType, strike: float):
-        super().__init__(lambda s: max((s - strike) * payoff_type, 0))
+    def __init__(self, payoff_type: PayoffType, strike=None, participation_rate=1.0):
+        self._strike = strike
+        self._payoff_type = payoff_type
+        self._participation_rate = participation_rate
+        super().__init__(self.pay)
+
+    @property
+    def strike(self):
+        return self._strike
+
+    @strike.setter
+    def strike(self, strike):
+        self._strike = strike
+
+    def pay(self, spot: float):
+        return max((spot - self._strike) * self._payoff_type, 0) * self._participation_rate
 
 
 class CashOrNothingPayoff(Payoff):
-    def __init__(self, payoff_type: PayoffType, strike: float, cash_amount: float):
-        super().__init__(lambda s: np.sign(max((s - strike) * payoff_type, 0)) * cash_amount)
+    def __init__(self, payoff_type: PayoffType, strike=None, cash_amount=None):
+        self._payoff_type = payoff_type
+        self._strike = strike
+        self._cash_amount = cash_amount
+        super().__init__(self.pay)
+
+    @property
+    def strike(self):
+        return self._strike
+
+    @strike.setter
+    def strike(self, strike):
+        self._strike = strike
+
+    @property
+    def cash(self):
+        return self._cash_amount
+
+    @cash.setter
+    def cash(self, cash_amount):
+        self._cash_amount = cash_amount
+
+    def pay(self, spot):
+        return np.sign(max((spot - self._strike) * self._payoff_type, 0)) * self._cash_amount
 
 
 class AssetOrNothingPayoff(Payoff):
@@ -40,11 +76,12 @@ class AssetOrNothingPayoff(Payoff):
 
 
 class BarrierPayoff(Payoff):
-    def __init__(self, payoff_type, barrier_type, barrier, strike):
+    def __init__(self, payoff_type, barrier_type, barrier, strike, participation_rate=1.0):
         self.payoff_type = payoff_type
         self.barrier_type = barrier_type
         self.strike = strike
         self.barrier = barrier
+        self._participation_rate = participation_rate
         super().__init__(self.payoff_func)
 
     def barrier_factor(self, spot: float):
@@ -56,4 +93,6 @@ class BarrierPayoff(Payoff):
         return 0
 
     def payoff_func(self, spot: float):
-        return self.barrier_factor(spot) * VanillaPayoff(self.payoff_type, self.strike).pay(spot)
+        bf = self.barrier_factor(spot)
+        vp = VanillaPayoff(self.payoff_type, self.strike, self._participation_rate)
+        return bf * vp.pay(spot)
