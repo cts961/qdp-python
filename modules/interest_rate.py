@@ -39,10 +39,9 @@ class InterestRate:
         if self._compounding == Compounding.Continuous:
             return np.exp(self._rate * t)
         else:
-            raise TypeError("Compounding type not surpported")
+            raise TypeError("Compounding type not supported")
 
     def discount_factor(self, d1, d2):
-        t = self._day_counter.year_fraction(d1, d2)
         return 1/self.compound_factor(d1, d2)
 
 

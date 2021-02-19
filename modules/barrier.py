@@ -2,7 +2,7 @@ from typing import List
 from date_utils.date import Date
 
 
-class BarrierStutus(enumerate):
+class BarrierStatus(enumerate):
     Hit = 1
     UnHit = 0
 
@@ -33,8 +33,4 @@ class Barrier:
         return False
 
     def __getitem__(self, date):
-        try:
-            return self._barrier_dict[date]
-        except KeyError:
-            return None
-
+        return self._barrier_dict[date]
