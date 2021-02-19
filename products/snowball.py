@@ -19,7 +19,7 @@ class Snowball:
         self.maturity_coupon = maturity_coupon
         self.ki_flag = ki_status
 
-    def npv(self, dates, st, df):
+    def pv_by_path(self, dates, st, df):
         ki_flag = self.ki_flag
         for t in range(len(dates)):
             d = dates[t]

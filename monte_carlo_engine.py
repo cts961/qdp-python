@@ -13,7 +13,7 @@ class MonteCarloEngine:
     def __init__(self, process):
         self.process = process
 
-    def calc(self, option, n_simulations):
+    def calc_pv(self, option, n_simulations):
         valuation_date = self.process.reference_date
         cal = self.process.day_counter
 
@@ -42,6 +42,6 @@ class MonteCarloEngine:
         logst = diffusion * eps + drift
         pv = np.zeros(n_simulations)
         for i in range(n_simulations):
-            pv[i] = option.npv(active_observation_dates, np.exp(logst)[i], df)
+            pv[i] = option.pv_by_path(active_observation_dates, np.exp(logst)[i], df)
 
         return np.average(pv)
