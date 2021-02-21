@@ -45,3 +45,12 @@ class InterestRate:
         return 1/self.compound_factor(d1, d2)
 
 
+class Yield:
+    def __init__(self, principal_amount,  rate: InterestRate, reference_date):
+        self.principal_amount = principal_amount
+        self.rate = rate
+        self.reference_date = reference_date
+
+    # yield on date
+    def __getitem__(self, date):
+        return self.rate.compound_factor(self.reference_date, date) * self.principal_amount
