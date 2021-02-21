@@ -20,9 +20,9 @@ if the number of values is less then the number of keys, the last value will be 
 '''
 
 
-def create_dict(keys: List, values) -> dict:
+def create_dict(keys, values) -> dict:
     gen_dict = {}
-    if hasattr(values, "__iter__"):
+    if hasattr(keys, "__iter__") and hasattr(values, "__iter__"):
         if len(values) >= len(keys):
             for i in range(len(keys)):
                 gen_dict[keys[i]] = values[i]
@@ -31,9 +31,12 @@ def create_dict(keys: List, values) -> dict:
                 gen_dict[keys[i]] = values[i]
             for i in range(len(values), len(keys)):
                 gen_dict[keys[i]] = values[- 1]
-    else:
+    elif hasattr(keys, "__iter__"):
         for i in range(len(keys)):
             gen_dict[keys[i]] = values
+    else:
+        gen_dict[keys] = values
+
     return gen_dict
 
 
@@ -52,6 +55,10 @@ class Barrier:
             if (barrier_type == BarrierType.DownOut or barrier_type == BarrierType.DownIn) and spot < barrier:
                 return True
         return False
+
+    @property
+    def observation_dates(self):
+        return list(self._barrier_dict)
 
     def __getitem__(self, date):
         return self._barrier_dict[date]
