@@ -3,7 +3,7 @@ import numpy as np
 
 # a general geometric brownian motion is like this
 # log(s(t)) = log(s(0))  + drift(t) + diffusion(t)* w
-# in blackscholes process, w follows gauss distriubition
+# in black scholes process, w follows gauss distribution
 
 class BlackScholesProcess:
     def __init__(self, reference_date, spot, r, q, v, day_counter):

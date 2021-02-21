@@ -10,12 +10,14 @@ def get_iid_eps(n_iterations, n_simulations):
 
 class MonteCarloEngine:
 
-    def __init__(self, process):
+    def __init__(self, process, n_simulations):
         self.process = process
+        self.n_simulations = n_simulations
 
-    def calc_pv(self, option, n_simulations):
+    def calc_pv(self, option):
         valuation_date = self.process.reference_date
         cal = self.process.day_counter
+        n_simulations = self.n_simulations
 
         active_observation_dates = [valuation_date]
         active_observation_dates += [t for t in option.observation_dates if t > valuation_date]
@@ -39,9 +41,9 @@ class MonteCarloEngine:
             diffusion[i] = self.process.diffusion(t)
             df[i] = self.process.discount_factor(t)
 
-        logst = diffusion * eps + drift
+        log_st = diffusion * eps + drift
         pv = np.zeros(n_simulations)
         for i in range(n_simulations):
-            pv[i] = option.pv_by_path(active_observation_dates, np.exp(logst)[i], df)
+            pv[i] = option.pv_by_path(active_observation_dates, np.exp(log_st)[i], df)
 
         return np.average(pv)
