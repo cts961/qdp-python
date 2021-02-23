@@ -1,4 +1,6 @@
 import numpy as np
+import multiprocessing as mp
+from joblib import Parallel, delayed
 
 
 def get_iid_eps(n_iterations, n_simulations):
@@ -13,6 +15,7 @@ class MonteCarloEngine:
     def __init__(self, process, n_simulations):
         self.process = process
         self.n_simulations = n_simulations
+        self.st = None
 
     def calc_pv(self, option):
         valuation_date = self.process.reference_date
@@ -21,7 +24,6 @@ class MonteCarloEngine:
 
         active_observation_dates = [valuation_date]
         active_observation_dates += [t for t in option.observation_dates if t > valuation_date]
-
         n_iterations = len(active_observation_dates)
         eps = get_iid_eps(n_iterations, n_simulations)
 
@@ -39,11 +41,18 @@ class MonteCarloEngine:
             t = cal.year_fraction(d1, d2)
             drift[i] = self.process.drift(t)
             diffusion[i] = self.process.diffusion(t)
-            df[i] = self.process.discount_factor(t)
+            df[i] = self.process.discount_factor(cal.year_fraction(valuation_date, d2))
 
-        log_st = diffusion * eps + drift
-        pv = np.zeros(n_simulations)
-        for i in range(n_simulations):
-            pv[i] = option.pv_by_path(active_observation_dates, np.exp(log_st)[i], df)
+        rt = diffusion * eps + drift
+        rt = rt.cumsum(axis=1)
+        st = np.exp(rt) * self.process.spot
 
-        return np.average(pv)
+        # self.st = st
+
+        def pv(s):
+            return option.pv_by_path(active_observation_dates, s, df)
+
+        num_cores = mp.cpu_count()
+
+        results = Parallel(n_jobs=num_cores)(delayed(pv)(s) for s in st)
+        return np.mean(results)

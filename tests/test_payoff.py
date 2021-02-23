@@ -1,6 +1,7 @@
 from unittest import TestCase
 
-from modules.payoff import *
+from qdp_python import *
+from qdp_python.modules import BarrierType
 
 
 class TestPayoff(TestCase):

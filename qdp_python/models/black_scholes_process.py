@@ -18,7 +18,7 @@ class BlackScholesProcess:
         return (self.r - self.q - 0.5 * self.v * self.v) * t
 
     def diffusion(self, t):
-        return self.v * np.srt(t)
+        return self.v * np.sqrt(t)
 
     def discount_factor(self, t):
         return np.exp(-self.r * t)

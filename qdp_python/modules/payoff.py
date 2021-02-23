@@ -1,5 +1,5 @@
 import numpy as np
-from modules.barrier import *
+from .barrier import *
 
 
 class PayoffType(enumerate):

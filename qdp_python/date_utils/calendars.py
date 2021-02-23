@@ -1,6 +1,3 @@
-from datetime import timedelta
-
-
 class China:
     def __init__(self, market=None):
         self.market = market

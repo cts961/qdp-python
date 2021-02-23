@@ -1,5 +1,5 @@
 from typing import List
-from date_utils.date import Date
+from qdp_python import Date
 
 
 class BarrierStatus(enumerate):
@@ -61,4 +61,7 @@ class Barrier:
         return list(self._barrier_dict)
 
     def __getitem__(self, date):
-        return self._barrier_dict[date]
+        try:
+            return self._barrier_dict[date]
+        except KeyError:
+            return None

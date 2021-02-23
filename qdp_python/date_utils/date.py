@@ -45,7 +45,3 @@ class Date:
         d = self.datetime()
         d += dt
         return Date(d.year, d.month, d.day)
-
-
-
-

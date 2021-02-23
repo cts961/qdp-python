@@ -1,13 +1,10 @@
 from unittest import TestCase
 
-from date_utils.date import Date
-from date_utils.day_counter import Act365
-from modules.interest_rate import InterestRate, Compounding, Yield
+from qdp_python import *
 
 
-class TestCallableBond(TestCase):
-    def test_yield(self):
+class TestCoupon(TestCase):
+    def test_coupon(self):
         rate = InterestRate(0.2, Act365(), Compounding.Simple)
-        bond = Yield(100, rate, Date(2021, 2, 21))
-
-        self.assertTrue(bond[Date(2022, 2, 21)], 20.0)
+        bond = Coupon(Date(2021, 2, 21), 100, rate)
+        self.assertAlmostEqual(bond[Date(2022, 2, 21)], 20.0, places=10)
