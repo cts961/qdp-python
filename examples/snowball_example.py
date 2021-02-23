@@ -57,4 +57,4 @@ engine = MonteCarloEngine(process, 100000)
 
 npv = option.pv(engine)
 print(npv)
-
+print(time()-stime)
