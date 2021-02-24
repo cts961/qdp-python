@@ -1,5 +1,6 @@
-from .snowball import *
-__All__ =[
+from .snowball import Snowball
+
+__All__ = [
     'Snowball'
 ]
 
