@@ -28,6 +28,9 @@ class Date:
     def __le__(self, other):
         return self.datetime() <= other.datetime()
 
+    def __ge__(self, other):
+        return self.datetime() >= other.datetime()
+
     def __hash__(self):
         return hash(self.datetime())
 
