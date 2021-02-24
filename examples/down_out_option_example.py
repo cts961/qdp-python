@@ -5,12 +5,12 @@ from qdp_python import *
 =====================================================
 option contract details:
  
-option type: Up Out Call
+option type: Down Out Put
 
 start date = 2018/1/3
 maturity date = 2019/1/3
 strike = 100%
-barrier : 120%
+barrier : 80%
 knock out as coupon , 10% annualized by Act365() convention
 knock out observation : monthly
 
@@ -24,9 +24,9 @@ dividend yield = 1%
 =================================================================
 
 Pricing result comparison details:
-quad pv = 2.81680297949105
-mc pv = 2.808227826471619 
-relative error = (quad pv / mc pv - 1) * 100 = 0.31%
+quad pv = 3.49292314574235
+mc pv = 3.507378730249968
+relative error = (quad pv / mc pv - 1) * 100 = -0.41%
 
 '''
 
@@ -37,7 +37,7 @@ start_date = Date(2018, 1, 3)
 maturity_date = Date(2019, 1, 3)
 spot = 100
 
-barrier_type = BarrierType.UpOut
+barrier_type = BarrierType.DownOut
 
 # construct knock out coupon
 coupon_rate = InterestRate(0.1)
@@ -48,11 +48,11 @@ observation_dates = [Date(2018, 2, 5), Date(2018, 3, 5), Date(2018, 4, 3), Date(
                      Date(2018, 6, 4), Date(2018, 7, 3), Date(2018, 8, 3), Date(2018, 9, 3),
                      Date(2018, 10, 8), Date(2018, 11, 5), Date(2018, 12, 3), Date(2019, 1, 3)]
 
-barrier = Barrier(observation_dates, 120, barrier_type)
+barrier = Barrier(observation_dates, 80, barrier_type)
 
-hit_payoff = CashOrNothingPayoff(PayoffType.Call, barrier, coupon)
+hit_payoff = CashOrNothingPayoff(PayoffType.Put, barrier, coupon)
 
-unhit_payoff = VanillaPayoff(PayoffType.Call, 100)
+unhit_payoff = VanillaPayoff(PayoffType.Put, 100)
 
 option = BarrierOption(spot,
                        start_date,
