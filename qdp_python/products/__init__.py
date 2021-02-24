@@ -1,5 +1,7 @@
 from .snowball import *
-__All__ =[
+from .barrier_option import *
+__All__ = [
     'Snowball'
+    'BarrierOption'
 ]
 

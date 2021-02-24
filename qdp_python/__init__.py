@@ -22,6 +22,7 @@ __All__ = {
     'VanillaPayoff',
     'CashOrNothingPayoff',
     'AssetOrNothingPayoff',
-    'BarrierPayoff'
+    'BarrierPayoff',
+    'BarrierOption'
 
 }
