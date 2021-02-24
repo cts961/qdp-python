@@ -1,3 +1,6 @@
+from qdp_python import *
+
+
 class BarrierOption:
     def __init__(self,
                  initial_spot,
@@ -23,9 +26,7 @@ class BarrierOption:
                 if self.barrier.is_hit(d, s):
                     return self.hit_payoff.pay(s, d) * df[t]
 
-            s = st[-1]
-            d = dates[-1]
-            return self.unhit_payoff.pay(s, d) * df[-1]
+            return self.unhit_payoff.pay(st[-1], dates[-1]) * df[-1]
 
         elif (self.barrier.barrier_type == BarrierType.UpIn) or (self.barrier.barrier_type == BarrierType.DownIn):
             for t in range(len(dates)):
@@ -34,8 +35,7 @@ class BarrierOption:
                 if self.barrier.is_hit(d, s):
                     return self.hit_payoff.pay(st[-1], dates[-1]) * df[-1]
 
-            d = dates[-1]
-            return self.unhit_payoff.pay(st[-1], d) * df[-1]
+            return self.unhit_payoff.pay(st[-1], dates[-1]) * df[-1]
 
         else:
             raise TypeError("Barrier Type Error!")
