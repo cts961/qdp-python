@@ -44,12 +44,12 @@ class Barrier:
 
     def __init__(self, observation_dates: List[Date], barrier_values, barrier_type: BarrierType):
         self._barrier_dict = create_dict(observation_dates, barrier_values)
-        self._barrier_type = barrier_type
+        self.barrier_type = barrier_type
 
     def is_hit(self, date: Date, spot: float) -> bool:
         barrier = self[date]
         if barrier is not None:
-            barrier_type = self._barrier_type
+            barrier_type = self.barrier_type
             if (barrier_type == BarrierType.UpOut or barrier_type == BarrierType.UpIn) and spot > barrier:
                 return True
             if (barrier_type == BarrierType.DownOut or barrier_type == BarrierType.DownIn) and spot < barrier:
