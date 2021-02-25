@@ -12,6 +12,8 @@ class BarrierType(enumerate):
     DownOut = 2
     UpIn = 3
     DownIn = 4
+    DoubleOneTouch = 5
+    DoubleNoTouch = 6
 
 
 '''
@@ -42,17 +44,30 @@ def create_dict(keys, values) -> dict:
 
 class Barrier:
 
-    def __init__(self, observation_dates: List[Date], barrier_values, barrier_type: BarrierType):
+    def __init__(self, observation_dates: List[Date], barrier_values, barrier_type: BarrierType,
+                 high_barrier_values=None):
         self._barrier_dict = create_dict(observation_dates, barrier_values)
         self.barrier_type = barrier_type
+        self._high_barrier_dict = create_dict(observation_dates, high_barrier_values)
 
     def is_hit(self, date: Date, spot: float) -> bool:
         barrier = self[date]
+        try:
+            self._high_barrier_dict[date]
+        except KeyError:
+            high_barrier = None
+        else:
+            high_barrier = self._high_barrier_dict[date]
         if barrier is not None:
             barrier_type = self.barrier_type
             if (barrier_type == BarrierType.UpOut or barrier_type == BarrierType.UpIn) and spot > barrier:
                 return True
             if (barrier_type == BarrierType.DownOut or barrier_type == BarrierType.DownIn) and spot < barrier:
+                return True
+        if high_barrier is not None:
+            barrier_type = self.barrier_type
+            if (barrier_type == BarrierType.DoubleOneTouch or barrier_type == BarrierType.DoubleNoTouch) and (
+                    spot > high_barrier or spot < barrier):
                 return True
         return False
 
@@ -65,3 +80,6 @@ class Barrier:
             return self._barrier_dict[date]
         except KeyError:
             return None
+
+
+
