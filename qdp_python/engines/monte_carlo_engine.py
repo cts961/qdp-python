@@ -2,7 +2,7 @@ import numpy as np
 import multiprocessing as mp
 from joblib import Parallel, delayed
 import torch
-import QuantLib as ql
+from scipy.special import ndtri
 
 
 def get_iid_eps(n_iterations, n_simulations):
@@ -17,10 +17,9 @@ def get_sobol_eps(n_iterations, n_simulations):
     sobol_engine = torch.quasirandom.SobolEngine(dimension=n_iterations)
     sobol_rand = sobol_engine.draw(n_simulations)
 
-    invGauss = ql.MoroInverseCumulativeNormal()
     for i in range(n_simulations):
         for j in range(n_iterations):
-            sobol_array[i][j] = invGauss(sobol_rand[i][j].item())
+            sobol_array[i][j] = ndtri(sobol_rand[i][j].item())
     return sobol_array
 
 
