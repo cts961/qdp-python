@@ -24,8 +24,7 @@ class TestBarrier(TestCase):
                              Date(2021, 7, 18), Date(2021, 8, 18)]
         barrier_values = [1, 2, 3]
         high_barrier_values = [2, 3, 4]
-        barrier = Barrier(observation_dates, barrier_values, BarrierType.DoubleOneTouch, high_barrier_values)
-
+        barrier = Barrier(observation_dates, barrier_values, BinaryType.DoubleOneTouch, high_barrier_values)
         self.assertTrue(barrier.is_hit(observation_dates[0], 0.9))
         self.assertTrue(barrier.is_hit(observation_dates[1], 3.1))
 
