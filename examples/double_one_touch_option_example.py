@@ -37,7 +37,7 @@ start_date = Date(2018, 1, 3)
 maturity_date = Date(2019, 1, 3)
 spot = 100
 
-barrier_type = BarrierType.DoubleOneTouch
+barrier_type = BinaryType.DoubleOneTouch
 
 # construct knock out coupon
 coupon_rate = InterestRate(0.1)
@@ -67,7 +67,7 @@ volatility = 0.3
 
 process = BlackScholesProcess(start_date, spot, risk_free_rate, dividend_yield, volatility, day_counter)
 
-engine = MonteCarloEngine(process, 1000000)
+engine = MonteCarloEngine(process, 100000)
 
 npv = option.pv(engine)
 print(npv)

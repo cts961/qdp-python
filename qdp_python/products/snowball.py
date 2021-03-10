@@ -1,4 +1,4 @@
-from qdp_python import BarrierStatus
+from qdp_python.modules import BarrierStatus
 
 
 class Snowball:

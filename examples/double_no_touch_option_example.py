@@ -37,7 +37,7 @@ start_date = Date(2018, 1, 3)
 maturity_date = Date(2019, 1, 3)
 spot = 100
 
-barrier_type = BarrierType.DoubleNoTouch
+barrier_type = BinaryType.DoubleNoTouch
 
 # construct never knock out coupon
 coupon_rate = InterestRate(0.1)

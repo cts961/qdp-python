@@ -5,6 +5,7 @@ from .payoff import *
 __all__ = [
     'BarrierStatus',
     'BarrierType',
+    'BinaryType',
     'Barrier',
     'Compounding',
     'Frequency',

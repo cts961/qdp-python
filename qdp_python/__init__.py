@@ -12,6 +12,7 @@ __All__ = {
     'Bus244',
     'BarrierStatus',
     'BarrierType',
+    'BinaryType',
     'Barrier',
     'Compounding',
     'Frequency',
@@ -23,6 +24,7 @@ __All__ = {
     'CashOrNothingPayoff',
     'AssetOrNothingPayoff',
     'BarrierPayoff',
-    'BarrierOption'
+    'BarrierOption',
+    'OptionType'
 
 }

@@ -184,7 +184,7 @@ class TestBarrierOption(TestCase):
         hit_payoff = CashOrNothingPayoff(PayoffType.Call, 120, coupon) + CashOrNothingPayoff(PayoffType.Put, 80, coupon)
         unhit_payoff = VanillaPayoff(PayoffType.Call, strike)
 
-        barrier = Barrier(observation_dates, 80, BarrierType.DoubleOneTouch, high_barrier_values=120)
+        barrier = Barrier(observation_dates, 80, BinaryType.DoubleOneTouch, high_barrier_values=120)
 
         option = BarrierOption(spot,
                                start_date,
@@ -230,7 +230,7 @@ class TestBarrierOption(TestCase):
                                                                                               coupon)
         hit_payoff = VanillaPayoff(PayoffType.Put, strike)
 
-        barrier = Barrier(observation_dates, 80, BarrierType.DoubleNoTouch, high_barrier_values=120)
+        barrier = Barrier(observation_dates, 80, BinaryType.DoubleNoTouch, high_barrier_values=120)
 
         option = BarrierOption(spot,
                                start_date,

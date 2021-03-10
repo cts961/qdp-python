@@ -12,8 +12,21 @@ class BarrierType(enumerate):
     DownOut = 2
     UpIn = 3
     DownIn = 4
-    DoubleOneTouch = 5
-    DoubleNoTouch = 6
+    DoubleKnockOut = 5
+    DoubleKnockIn = 6
+
+
+class BinaryType(enumerate):
+    CashOrNothing = 1
+    AssetOrNothing = 2
+    UpOneTouch = 3
+    UpNoTouch = 4
+    DownOneTouch = 5
+    DownNoTouch = 6
+    DoubleOneTouch = 7
+    DoubleNoTouch = 8
+
+
 
 
 '''
@@ -49,6 +62,8 @@ class Barrier:
         self._barrier_dict = create_dict(observation_dates, barrier_values)
         self.barrier_type = barrier_type
         self._high_barrier_dict = create_dict(observation_dates, high_barrier_values)
+        self.barrier_value = barrier_values
+        self.high_barrier_value = high_barrier_values
 
     def is_hit(self, date: Date, spot: float) -> bool:
         barrier = self[date]
@@ -66,7 +81,7 @@ class Barrier:
                 return True
         if high_barrier is not None:
             barrier_type = self.barrier_type
-            if (barrier_type == BarrierType.DoubleOneTouch or barrier_type == BarrierType.DoubleNoTouch) and (
+            if (barrier_type == BinaryType.DoubleOneTouch or barrier_type == BinaryType.DoubleNoTouch) and (
                     spot > high_barrier or spot < barrier):
                 return True
         return False
