@@ -24,7 +24,7 @@ class Accumulator:
         payoff_call = VanillaPayoff(PayoffType.Call, self.strike, self.call_multiplier)
         payoff_put = VanillaPayoff(PayoffType.Put, self.strike, self.put_multiplier)
         pv = 0
-        for t in range(1, len(dates)):
+        for t in range(1, len(dates)):  # starts from 1 because this is the 1st settlement day
             d = dates[t]
             s = st[t]
             if self.ko_barrier.is_hit(d, s):
